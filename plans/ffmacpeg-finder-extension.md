@@ -1,18 +1,22 @@
 ---
 planStatus:
   planId: plan-ffmacpeg-finder-extension
-  title: "FFmacPeg - macOS Finder Extension for FFmpeg Video Conversion"
+  title: FFmacPeg - macOS Finder Extension for FFmpeg Video Conversion
   status: draft
   planType: system-design
   priority: high
   owner: mario
   stakeholders: []
-  tags: [macos, swift, ffmpeg, finder-extension, video-conversion]
+  tags:
+    - macos
+    - swift
+    - ffmpeg
+    - finder-extension
+    - video-conversion
   created: "2026-03-03"
   updated: "2026-03-03T00:00:00.000Z"
   progress: 0
 ---
-
 # FFmacPeg - macOS Finder Extension for FFmpeg Video Conversion
 
 ## Overview
@@ -71,19 +75,19 @@ The extension will hand off conversion to the main app via URL scheme (the exten
 ### 5. User Preferences (Confirmed)
 
 | Setting | MVP Behavior | Future |
-|---|---|---|
+| --- | --- | --- |
 | **Quality** | Sensible defaults (CRF 20 video, copy audio when possible) | User-configurable presets |
 | **File conflicts** | Auto-rename with suffix: `video (1).mp4` | Option to overwrite/ask |
 | **Progress** | macOS notification on completion | Menu bar progress indicator |
 | **Batch conversion** | Single file only | Multi-file selection support |
-| **Format scope** | Video only | + Audio, Image |
+| **Format scope** | Video only | - Audio, Image |
 
 ---
 
 ## MVP Supported Video Conversions
 
 | Source Extensions | Target Options |
-|---|---|
+| --- | --- |
 | `.mov` | MP4, MKV, WebM, AVI, GIF |
 | `.mp4` | MOV, MKV, WebM, AVI, GIF |
 | `.avi` | MP4, MOV, MKV, WebM, GIF |
@@ -208,12 +212,12 @@ Finder right-click → Action Extension activates
 ## Prerequisites
 
 | Prerequisite | Status | Notes |
-|---|---|---|
+| --- | --- | --- |
 | Xcode 16+ | To install | Free from Mac App Store |
 | Apple Developer Program | Later | $99/year, needed for Phase 6 only |
 | macOS 15+ (Sequoia) | Current | Deployment target |
 | ffmpeg static binary | To obtain | Universal arm64 + x86_64 |
-| Swift 6 | Ships with Xcode 16 | |
+| Swift 6 | Ships with Xcode 16 |  |
 
 **Note:** Phases 1-5 can be developed and tested locally without the Apple Developer Program. You only need it for code-signing and distribution (Phase 6).
 
