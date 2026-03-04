@@ -169,6 +169,7 @@
 				AC53F8A22F57750F00A89A8E /* Resources */,
 				AC53F9102F577A0000A89A8E /* Copy and Sign FFmpeg Binaries */,
 				AC53F8E52F5777BC00A89A8E /* Embed Foundation Extensions */,
+				AC53F9202F577B0000A89A8E /* Re-register ConvertAction Extension */,
 			);
 			buildRules = (
 			);
@@ -354,6 +355,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Copy ffmpeg and ffprobe to Contents/MacOS/\ncp \"${SRCROOT}/ffMacpeg/bin/ffmpeg\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/ffmpeg\"\ncp \"${SRCROOT}/ffMacpeg/bin/ffprobe\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_FOLDER_PATH}/ffprobe\"\n";
+		};
+		AC53F9202F577B0000A89A8E /* Re-register ConvertAction Extension */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Re-register ConvertAction Extension";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" = \"Debug\" ]; then\n    APPEX=\"${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}/Contents/PlugIns/ConvertAction.appex\"\n    if [ -d \"$APPEX\" ]; then\n        pluginkit -a \"$APPEX\" 2>/dev/null || true\n        pluginkit -e use -i com.ffmacpeg.ffMacpeg.ConvertAction 2>/dev/null || true\n    fi\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
