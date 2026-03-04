@@ -24,12 +24,13 @@ struct ffMacpegApp: App {
     )
 
     var body: some Scene {
-        WindowGroup {
+        Window("FFmacPeg", id: "main") {
             ContentView(appState: appState)
                 .onOpenURL { url in
                     handleConversionURL(url)
                 }
         }
+        .defaultSize(width: 480, height: 400)
     }
 
     private func handleConversionURL(_ url: URL) {
