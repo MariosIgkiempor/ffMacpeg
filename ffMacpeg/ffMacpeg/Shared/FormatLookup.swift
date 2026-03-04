@@ -1,9 +1,6 @@
 import Foundation
 
 /// A video container format that FFmacPeg can convert to.
-/// Duplicated from the main app target's FormatRegistry — the extension only
-/// needs the enum and the target-format lookup, not conversion profiles or
-/// ffmpeg argument building.
 enum VideoFormat: String, CaseIterable, Sendable {
     case mp4
     case mov
@@ -13,9 +10,10 @@ enum VideoFormat: String, CaseIterable, Sendable {
     case gif
 }
 
-/// Minimal format lookup for the Action Extension.
-enum VideoFormats {
+/// Shared format lookup used by both the main app and extensions.
+enum FormatLookup {
 
+    /// All source extensions this app can accept as input.
     static let supportedSourceExtensions: Set<String> = [
         "mov", "mp4", "avi", "mkv", "webm", "flv", "wmv",
         "mpg", "mpeg", "ts", "m4v",
@@ -30,15 +28,17 @@ enum VideoFormats {
             return []
         }
 
+        // Map source extension to the VideoFormat it already is
         let sourceFormat: VideoFormat? = switch normalized {
         case "mp4": .mp4
         case "mov": .mov
         case "mkv": .mkv
         case "webm": .webm
         case "avi": .avi
-        default: nil
+        default: nil // flv, wmv, mpg, mpeg, ts, m4v have no matching VideoFormat
         }
 
+        // Legacy/uncommon formats don't offer GIF as a target
         let noGif: Set<String> = ["flv", "wmv", "mpg", "mpeg", "ts", "m4v"]
         let allTargets: [VideoFormat] =
             noGif.contains(normalized)
