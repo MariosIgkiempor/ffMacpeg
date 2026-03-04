@@ -1,36 +1,60 @@
-//
-//  ffMacpegApp.swift
-//  ffMacpeg
-//
-//  Created by Marios Igkiempor on 03/03/2026.
-//
-
 import SwiftUI
 import os
 
 @Observable
 final class AppState {
     var isConverting = false
+    let history = ConversionHistory()
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "ffMacpeg",
+        category: "AppState"
+    )
+
+    func runConversion(inputURL: URL, format: VideoFormat) {
+        Task {
+            isConverting = true
+            defer { isConverting = false }
+
+            do {
+                let result = try await ConversionService.convert(inputURL: inputURL, to: format)
+                history.addRecord(ConversionRecord(
+                    inputFileName: inputURL.lastPathComponent,
+                    sourceExtension: inputURL.pathExtension.lowercased(),
+                    targetFormat: format.rawValue,
+                    success: true,
+                    outputFileName: result.outputURL.lastPathComponent,
+                    durationSeconds: result.duration
+                ))
+            } catch {
+                Self.logger.error("Conversion failed: \(error.localizedDescription)")
+                history.addRecord(ConversionRecord(
+                    inputFileName: inputURL.lastPathComponent,
+                    sourceExtension: inputURL.pathExtension.lowercased(),
+                    targetFormat: format.rawValue,
+                    success: false,
+                    errorMessage: error.localizedDescription
+                ))
+            }
+        }
+    }
 }
 
-@main
-struct ffMacpegApp: App {
+// MARK: - App Delegate (URL handling)
 
-    @State private var appState = AppState()
+final class AppDelegate: NSObject, NSApplicationDelegate {
+
+    var appState: AppState?
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "ffMacpeg",
         category: "URLHandler"
     )
 
-    var body: some Scene {
-        Window("FFmacPeg", id: "main") {
-            ContentView(appState: appState)
-                .onOpenURL { url in
-                    handleConversionURL(url)
-                }
+    func application(_ application: NSApplication, open urls: [URL]) {
+        for url in urls {
+            handleConversionURL(url)
         }
-        .defaultSize(width: 480, height: 400)
     }
 
     private func handleConversionURL(_ url: URL) {
@@ -54,16 +78,36 @@ struct ffMacpegApp: App {
         }
 
         let inputURL = URL(fileURLWithPath: filePath)
+        appState?.runConversion(inputURL: inputURL, format: format)
+    }
+}
 
-        Task {
-            appState.isConverting = true
-            defer { appState.isConverting = false }
+// MARK: - App
 
-            do {
-                try await ConversionService.convert(inputURL: inputURL, to: format)
-            } catch {
-                Self.logger.error("Conversion failed: \(error.localizedDescription)")
-            }
+@main
+struct ffMacpegApp: App {
+
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @State private var appState = AppState()
+
+    var body: some Scene {
+        MenuBarExtra {
+            MenuBarView(appState: appState)
+                .task {
+                    await ConversionNotifier.requestPermission()
+                    appDelegate.appState = appState
+                }
+        } label: {
+            Image(systemName: appState.isConverting
+                  ? "film.circle"
+                  : "video.badge.waveform")
         }
+        .menuBarExtraStyle(.window)
+
+        Window("Settings", id: "settings") {
+            SettingsView()
+        }
+        .defaultSize(width: 400, height: 300)
+        .windowResizability(.contentSize)
     }
 }

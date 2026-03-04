@@ -1,15 +1,5 @@
 import Foundation
 
-/// A video container format that FFmacPeg can convert to.
-enum VideoFormat: String, CaseIterable, Sendable {
-    case mp4
-    case mov
-    case mkv
-    case webm
-    case avi
-    case gif
-}
-
 /// Encapsulates the ffmpeg arguments needed to convert to a specific format.
 struct ConversionProfile: Sendable {
     let format: VideoFormat
@@ -24,10 +14,9 @@ struct ConversionProfile: Sendable {
 enum FormatRegistry {
 
     /// All source extensions this app can accept as input.
-    static let supportedSourceExtensions: Set<String> = [
-        "mov", "mp4", "avi", "mkv", "webm", "flv", "wmv",
-        "mpg", "mpeg", "ts", "m4v",
-    ]
+    static var supportedSourceExtensions: Set<String> {
+        FormatLookup.supportedSourceExtensions
+    }
 
     private static let profiles: [VideoFormat: ConversionProfile] = [
         .mp4: ConversionProfile(
@@ -77,30 +66,7 @@ enum FormatRegistry {
     /// Returns the target formats available for a given source extension.
     /// The source's own format is excluded from the list.
     static func targetFormats(forSourceExtension ext: String) -> [VideoFormat] {
-        let normalized = ext.lowercased().trimmingCharacters(in: CharacterSet(charactersIn: "."))
-
-        guard supportedSourceExtensions.contains(normalized) else {
-            return []
-        }
-
-        // Map source extension to the VideoFormat it already is
-        let sourceFormat: VideoFormat? = switch normalized {
-        case "mp4": .mp4
-        case "mov": .mov
-        case "mkv": .mkv
-        case "webm": .webm
-        case "avi": .avi
-        default: nil // flv, wmv, mpg, mpeg, ts, m4v have no matching VideoFormat
-        }
-
-        // Legacy/uncommon formats don't offer GIF as a target
-        let noGif: Set<String> = ["flv", "wmv", "mpg", "mpeg", "ts", "m4v"]
-        let allTargets: [VideoFormat] =
-            noGif.contains(normalized)
-            ? [.mp4, .mov, .mkv, .webm, .avi]
-            : VideoFormat.allCases
-
-        return allTargets.filter { $0 != sourceFormat }
+        FormatLookup.targetFormats(forSourceExtension: ext)
     }
 
     /// Returns the full ConversionProfile for a target format.
