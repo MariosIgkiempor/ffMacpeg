@@ -15,7 +15,7 @@ planStatus:
     - video-conversion
   created: "2026-03-03"
   updated: "2026-03-03T00:00:00.000Z"
-  progress: 0
+  progress: 25
 ---
 # FFmacPeg - macOS Finder Extension for FFmpeg Video Conversion
 
@@ -163,20 +163,20 @@ Finder right-click → Action Extension activates
 ## Implementation Phases
 
 ### Phase 1: Project Scaffolding
-- [ ] Install Xcode 16+ from Mac App Store
-- [ ] Create new macOS SwiftUI App project "FFmacPeg"
-- [ ] Add Action Extension target "ConvertAction"
-- [ ] Configure app sandbox entitlements for both targets
-- [ ] Configure hardened runtime
-- [ ] Register custom URL scheme `ffmacpeg://` in Info.plist
-- [ ] Set deployment target to macOS 15 (Sequoia)
+- [x] Install Xcode 16+ from Mac App Store
+- [x] Create new macOS SwiftUI App project "FFmacPeg" (named `ffMacpeg` in Xcode)
+- [x] Add Action Extension target "ConvertAction"
+- [x] Configure app sandbox entitlements for both targets
+- [x] Configure hardened runtime
+- [x] Register custom URL scheme `ffmacpeg://` in Info.plist
+- [x] Set deployment target to macOS 15 (Sequoia)
 
 ### Phase 2: Bundle FFmpeg
-- [ ] Obtain universal (arm64 + x86_64) static ffmpeg + ffprobe binaries
-- [ ] Add "Copy Files" build phase to embed binaries in `Contents/MacOS/`
-- [ ] Add build script phase to code-sign bundled binaries
-- [ ] Write Swift helper to locate bundled binary: `Bundle.main.url(forAuxiliaryExecutable: "ffmpeg")`
-- [ ] Verify execution from sandbox with a test conversion
+- [x] Obtain universal (arm64 + x86_64) static ffmpeg + ffprobe binaries
+- [x] Add "Copy Files" build phase to embed binaries in `Contents/MacOS/`
+- [x] Add build script phase to code-sign bundled binaries (deferred to Phase 6 — using ad-hoc signing for dev)
+- [x] Write Swift helper to locate bundled binary: `Bundle.main.url(forAuxiliaryExecutable: "ffmpeg")`
+- [x] Verify execution from sandbox with a test conversion
 
 ### Phase 3: Conversion Engine
 - [ ] Create `FormatRegistry.swift` - maps source extensions → target formats + ffmpeg args
@@ -213,7 +213,7 @@ Finder right-click → Action Extension activates
 
 | Prerequisite | Status | Notes |
 | --- | --- | --- |
-| Xcode 16+ | To install | Free from Mac App Store |
+| Xcode 16+ | Installed | Free from Mac App Store |
 | Apple Developer Program | Later | $99/year, needed for Phase 6 only |
 | macOS 15+ (Sequoia) | Current | Deployment target |
 | ffmpeg static binary | To obtain | Universal arm64 + x86_64 |
