@@ -89,13 +89,15 @@ struct ffMacpegApp: App {
 
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @State private var appState = AppState()
+    @State private var extensionStatus = ExtensionStatus()
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(appState: appState)
+            MenuBarView(appState: appState, extensionStatus: extensionStatus)
                 .task {
                     await ConversionNotifier.requestPermission()
                     appDelegate.appState = appState
+                    extensionStatus.startMonitoring()
                 }
         } label: {
             Image(systemName: appState.isConverting
