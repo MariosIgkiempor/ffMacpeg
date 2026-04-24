@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC53FA0B2F58000000A89A8E /* FinderConvert.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AC53FA002F58000000A89A8E /* FinderConvert.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		AC53FA0D2F58000000A89A8E /* FormatLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC53FA0C2F58000000A89A8E /* FormatLookup.swift */; };
+		AC53FA0D2F58000000A89A8E /* ffMacpeg/Shared/FormatLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC53FA0C2F58000000A89A8E /* ffMacpeg/Shared/FormatLookup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,16 +54,16 @@
 		AC53F8B12F57751100A89A8E /* ffMacpegTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ffMacpegTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC53F8BB2F57751100A89A8E /* ffMacpegUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ffMacpegUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC53FA002F58000000A89A8E /* FinderConvert.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FinderConvert.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		AC53FA0C2F58000000A89A8E /* FormatLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ffMacpeg/Shared/FormatLookup.swift"; sourceTree = "<group>"; };
+		AC53FA0C2F58000000A89A8E /* ffMacpeg/Shared/FormatLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ffMacpeg/Shared/FormatLookup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		AC53F90B2F5779F800A89A8E /* Exceptions for "ffMacpeg" folder in "ffMacpeg" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
 				bin/ffmpeg,
 				bin/ffprobe,
+				Info.plist,
 			);
 			target = AC53F8A32F57750F00A89A8E /* ffMacpeg */;
 		};
@@ -137,6 +137,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC2F8C6D2F5E21E600FC8C03 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				AC53FA0C2F58000000A89A8E /* ffMacpeg/Shared/FormatLookup.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		AC53F89B2F57750F00A89A8E = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +153,7 @@
 				AC53F8BE2F57751100A89A8E /* ffMacpegUITests */,
 				AC53FA052F58000000A89A8E /* FinderConvert */,
 				AC53F8A52F57750F00A89A8E /* Products */,
+				AC2F8C6D2F5E21E600FC8C03 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -404,7 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC53FA0D2F58000000A89A8E /* FormatLookup.swift in Sources */,
+				AC53FA0D2F58000000A89A8E /* ffMacpeg/Shared/FormatLookup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
